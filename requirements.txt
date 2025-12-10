@@ -1,0 +1,4 @@
+markdown
+weasyprint
+flask
+requests

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>md to pdf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">md→pdf</div>
+        <input id="doc-title" class="title-input" placeholder="Untitled document" aria-label="Document title" />
+      </div>
+      <nav class="menubar" aria-label="Main menu">
+        <button class="menu-item" data-action="new">File</button>
+        <button class="menu-item" data-action="edit">Edit</button>
+        <button class="menu-item" data-action="view">View</button>
+        <button class="menu-item" data-action="help">Help</button>
+      </nav>
+      <div class="toolbar">
+        <button id="toggle-layout" class="ghost-btn" aria-label="Toggle layout">Split View</button>
+        <button id="export-btn" class="primary-btn" aria-label="Export to PDF">Export PDF</button>
+      </div>
+    </header>
+
+    <main id="workspace" class="workspace split">
+      <section class="panel editor-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Compose</p>
+            <h2>Markdown Editor</h2>
+          </div>
+          <div class="pill">Live autosave</div>
+        </div>
+        <div class="import-row" aria-label="Import markdown">
+          <div class="import-left">
+            <button id="upload-btn" class="ghost-btn" type="button">Upload .md</button>
+            <input id="file-input" type="file" accept=".md,.markdown,text/markdown,text/plain" hidden />
+          </div>
+          <div class="import-right">
+            <input id="url-input" class="url-input" placeholder="https://example.com/file.md" aria-label="Markdown URL" />
+            <button id="url-btn" class="ghost-btn" type="button">Load URL</button>
+          </div>
+        </div>
+        <textarea id="editor" spellcheck="false" aria-label="Markdown editor"></textarea>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Preview</p>
+            <h2>Rendered Output</h2>
+          </div>
+          <div class="pill soft">Clean preview</div>
+        </div>
+        <div id="preview" class="preview"></div>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="status">
+        <span id="char-count">0 chars</span>
+        <span class="dot"></span>
+        <span id="word-count">0 words</span>
+      </div>
+      <div class="actions">
+        <button id="save-md" class="ghost-btn">Download .md</button>
+        <button id="save-pdf" class="primary-btn">Save & Export PDF</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
