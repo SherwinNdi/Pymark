@@ -120,9 +120,27 @@ HTML_TEMPLATE = """<!doctype html>
 <head>
   <meta charset=\"utf-8\">
   <title>{title}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
 {body}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {{
+    if (window.renderMathInElement) {{
+      renderMathInElement(document.body, {{
+        delimiters: [
+          {{left: '$$', right: '$$', display: true}},
+          {{left: '$', right: '$', display: false}},
+          {{left: '\\\\[', right: '\\\\]', display: true}},
+          {{left: '\\\\(', right: '\\\\)', display: false}}
+        ],
+        throwOnError: false
+      }});
+    }}
+  }});
+</script>
 </body>
 </html>
 """
@@ -133,6 +151,14 @@ def markdown_to_html(markdown_text: str) -> str:
 
 
 def markdown_to_pdf_bytes(markdown_text: str, css_text: str | None, title: str) -> bytes:
+    """Convert markdown to PDF with math rendering support.
+    
+    Note: WeasyPrint doesn't support JavaScript, so KaTeX won't render in PDFs.
+    For proper math rendering in PDFs, consider using a headless browser approach.
+    This implementation includes KaTeX for the HTML preview but PDFs will show
+    LaTeX source code. For production use, integrate Selenium/Playwright for
+    JavaScript-rendered PDFs.
+    """
     html_body = markdown_to_html(markdown_text)
     html = HTML_TEMPLATE.format(title=title, body=html_body)
     stylesheets = [CSS(string=css_text or DEFAULT_CSS)]
@@ -232,6 +258,37 @@ def create_app() -> Any:
             return jsonify({"error": str(exc)}), 400
 
         return jsonify({"markdown": text})
+
+    @app.post("/render-html")
+    def render_html():  # type: ignore
+        data = request.get_json(silent=True) or {}
+        markdown_text = data.get("markdown", "")
+        title = data.get("title") or "Document"
+        css_text = data.get("css")
+
+        if not isinstance(markdown_text, str) or not markdown_text.strip():
+            return jsonify({"error": "markdown is required"}), 400
+
+        html_body = markdown_to_html(markdown_text)
+        css_for_html = css_text or DEFAULT_CSS
+        
+        # Create standalone HTML with embedded styles
+        full_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <style>
+    {css_for_html}
+  </style>
+</head>
+<body>
+{html_body}
+</body>
+</html>"""
+
+        return jsonify({"html": full_html})
 
     return app
 

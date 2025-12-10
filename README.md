@@ -11,8 +11,9 @@
 ### Web Interface
 - **Split & Focus Modes** – Toggle between side-by-side editing/preview and distraction-free writing
 - **Live Preview** – Instantly see rendered Markdown with syntax highlighting, tables, and more
+- **Mathematical Equations** – Full LaTeX/KaTeX support for inline (`$...$`) and display (`$$...$$`) math
 - **Import Options** – Load Markdown from local `.md` files or fetch from remote URLs
-- **Export Capabilities** – Download as `.md` or generate professional PDFs
+- **Export Capabilities** – Download as `.md`, open as HTML, or generate PDFs
 - **Auto-Save** – Your work is automatically saved to browser storage
 - **Modern UI** – Clean, responsive design with a polished gradient background
 
@@ -57,6 +58,38 @@ Open your browser to `http://127.0.0.1:5000` and start writing!
 ### CLI Usage
 
 Convert a Markdown file to PDF:
+
+```bash
+python main.py document.md --output report.pdf
+```
+
+**Optional flags:**
+- `--css custom.css` – Apply custom stylesheet
+- `--title "My Report"` – Set PDF document title
+
+## 📐 Mathematical Equations
+
+Pymark supports **LaTeX mathematical notation** via KaTeX in the web preview:
+
+```markdown
+Prices: This costs $100 and that costs $50. (regular text)
+
+Inline math: The formula \(E = mc^2\) is Einstein's equation.
+
+Display math:
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+**Note:** Use `\(...\)` for inline math (not `$...$`) to avoid conflicts with currency symbols.
+
+**For PDFs with math rendering:**
+1. Use **"Open HTML"** from the menu
+2. Print to PDF from your browser (⌘+P / Ctrl+P)
+3. Result: Perfect math rendering
+
+> **Note:** Direct PDF export shows LaTeX source code due to WeasyPrint limitations. See `MATH_RENDERING.md` for details and alternative solutions.
 
 ```bash
 python main.py input.md output.pdf

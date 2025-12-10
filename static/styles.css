@@ -292,6 +292,27 @@ textarea#editor:focus {
   color: #1f2937;
 }
 
+/* Math rendering styles */
+.preview .katex {
+  font-size: 1.1em;
+}
+
+.preview .katex-display {
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.preview .math-inline {
+  display: inline;
+}
+
+.preview .math-display {
+  display: block;
+  margin: 1em 0;
+  text-align: center;
+}
+
 .bottombar {
   display: flex;
   justify-content: space-between;
