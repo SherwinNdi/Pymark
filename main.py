@@ -273,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.serve:
         app = create_app()
-        app.run(host=args.host, port=args.port)
+        app.run(host=args.host, port=args.port, debug=False)
         return 0
 
     if args.input is None:

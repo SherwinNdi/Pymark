@@ -1,5 +1,9 @@
 # Pymark
 
+<p align="center">
+  <img src="static/Pymark_logo.png" alt="Pymark Logo" width="200"/>
+</p>
+
 **Pymark** is a modern Markdown-to-PDF conversion tool featuring both a powerful CLI and an elegant web interface. Write, preview, and export your Markdown documents with ease.
 
 ## ✨ Features
