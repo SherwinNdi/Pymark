@@ -1,58 +1,121 @@
-# md_to_pdf
+# Pymark
 
-Simple CLI to render a Markdown file to PDF using Python, Markdown, and WeasyPrint.
+**Pymark** is a modern Markdown-to-PDF conversion tool featuring both a powerful CLI and an elegant web interface. Write, preview, and export your Markdown documents with ease.
 
-Now also includes a modern web interface with live preview and one-click PDF export.
+## ✨ Features
 
-## Setup
+### Web Interface
+- **Split & Focus Modes** – Toggle between side-by-side editing/preview and distraction-free writing
+- **Live Preview** – Instantly see rendered Markdown with syntax highlighting, tables, and more
+- **Import Options** – Load Markdown from local `.md` files or fetch from remote URLs
+- **Export Capabilities** – Download as `.md` or generate professional PDFs
+- **Auto-Save** – Your work is automatically saved to browser storage
+- **Modern UI** – Clean, responsive design with a polished gradient background
+
+### Command-Line Interface
+- Convert Markdown files to PDF with a single command
+- Custom CSS styling support
+- Configurable document titles
+- Batch processing capability
+
+## 🚀 Quick Start
+
+### Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> WeasyPrint relies on system libraries (Cairo, Pango, GDK-PixBuf). On macOS you can install them via Homebrew if needed:
+> **macOS users:** WeasyPrint requires system libraries. Install via Homebrew:
 >
 > ```bash
 > brew install cairo pango gdk-pixbuf libffi
 > ```
 
-## Usage
+### Web Interface
+
+Launch the web app:
 
 ```bash
-python main.py path/to/input.md path/to/output.pdf
+python main.py --serve
 ```
 
-Options:
+Open your browser to `http://127.0.0.1:5000` and start writing!
 
-- `--css custom.css` to supply your own stylesheet.
-- `--title "Custom Title"` to override the document title (defaults to the Markdown filename).
-- If `output.pdf` is omitted, it defaults to the input filename with a `.pdf` extension.
+**Web Features:**
+- 📝 Write Markdown in the left pane
+- 👁️ See live preview on the right
+- 🔄 Toggle split/focus view from the top bar
+- 📤 Upload `.md` files or load from URLs
+- 💾 Download your work as Markdown
+- 📄 Export to professionally styled PDFs
 
-Example:
+### CLI Usage
+
+Convert a Markdown file to PDF:
 
 ```bash
-python main.py README.md README.pdf --title "Project Docs"
+python main.py input.md output.pdf
 ```
 
-## Notes
+**Options:**
 
-- Relative image paths in your Markdown are resolved from the Markdown file's directory.
-- The script ships with a sensible default stylesheet; bring your own CSS for brand-specific styling.
+- `--css <file>` – Apply custom CSS stylesheet
+- `--title "Title"` – Set PDF document title
+- `--serve` – Launch web interface instead of CLI mode
+- `--host <host>` – Web server host (default: 127.0.0.1)
+- `--port <port>` – Web server port (default: 5000)
 
-## Web UI (live preview + export)
-
-Start the web interface:
+**Examples:**
 
 ```bash
-python main.py --serve --port 5000
+# Basic conversion
+python main.py README.md README.pdf
+
+# With custom styling
+python main.py notes.md notes.pdf --css custom.css --title "My Notes"
+
+# Auto-generate output name
+python main.py document.md
+# Creates document.pdf
 ```
 
-Then open `http://127.0.0.1:5000` in your browser. You can:
+## 🛠️ Tech Stack
 
-- Toggle between split view and focus mode (editor-only).
-- Live-preview Markdown with syntax highlighting and tables.
-- Download your `.md` draft.
-- Export to PDF via the backend (WeasyPrint).
-- Import from local `.md` files or fetch a Markdown file from a URL.
+- **Backend:** Python, Flask, WeasyPrint, Markdown
+- **Frontend:** Vanilla JavaScript, Marked.js, DOMPurify
+- **Styling:** Modern CSS with Space Grotesk font
 
-> Tip: the browser autosaves drafts locally (via localStorage). Use the bottom buttons to persist files explicitly.
+## 📦 Project Structure
+
+```
+pymark/
+├── main.py              # Core application (CLI + Flask server)
+├── requirements.txt     # Python dependencies
+├── static/
+│   ├── index.html      # Web UI structure
+│   ├── styles.css      # Modern UI styling
+│   └── app.js          # Frontend logic
+├── README.md           # This file
+└── LICENSE             # MIT License
+```
+
+## 📝 Notes
+
+- The web interface stores drafts in browser localStorage
+- Images referenced in Markdown are resolved relative to the source file
+- Built-in PDF styling follows professional document standards
+- Remote URL imports are limited to 1 MB for safety
+- Both HTTP and HTTPS URLs are supported for imports
+
+## 🤝 Contributing
+
+Contributions welcome! Feel free to open issues or submit pull requests.
+
+## 📄 License
+
+MIT License – see [LICENSE](LICENSE) for details.
+
+---
+
+**Made with ❤️ using Python and modern web technologies**
